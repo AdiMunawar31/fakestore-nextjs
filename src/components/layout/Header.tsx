@@ -20,7 +20,6 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-apple border-b border-gray-100">
       <nav className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
-        {/* Logo */}
         <Link
           href="/"
           className="flex items-center gap-2 font-bold text-lg tracking-tight text-gray-900"
@@ -28,10 +27,9 @@ export default function Header() {
           <div className="w-6 h-6 bg-brand rounded-full flex items-center justify-center">
             <ShoppingBag className="w-3.5 h-3.5 text-white" />
           </div>
-          D2Y
+          D2Y FakeStore
         </Link>
 
-        {/* Desktop Nav */}
         <ul className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <li key={link.href}>
@@ -45,7 +43,6 @@ export default function Header() {
           ))}
         </ul>
 
-        {/* Actions */}
         <div className="flex items-center gap-2">
           <Link
             href={token ? "/profile" : "/login"}

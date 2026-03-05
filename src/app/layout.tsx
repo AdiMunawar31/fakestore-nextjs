@@ -3,14 +3,15 @@ import "./globals.css";
 import ReduxProvider from "@/components/ReduxProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: {
-    default: "D2Y Store — Modern Shopping",
-    template: "%s | D2Y Store",
+    default: "D2Y FakeStore — Modern Shopping",
+    template: "%s | D2Y FakeStore",
   },
   description:
-    "Discover amazing products at D2Y Store. Clean, fast, and beautifully designed.",
+    "Discover amazing products at D2Y FakeStore. Clean, fast, and beautifully designed.",
   keywords: ["ecommerce", "online store", "shopping", "D2Y"],
 };
 
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning>
+        <Toaster />
         <ReduxProvider>
           <div className="min-h-screen flex flex-col">
             <Header />

@@ -53,7 +53,7 @@ export default function LoginPage() {
               Sign in
             </h1>
             <p className="text-sm text-gray-500 mt-1">
-              to your D2Y Store account
+              to your D2Y FakeStore account
             </p>
           </div>
 
