@@ -4,6 +4,7 @@ import ReduxProvider from "@/components/ReduxProvider";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Toaster } from "react-hot-toast";
+import AuthInitializer from "@/hooks/AuthInitializer";
 
 export const metadata: Metadata = {
   title: {
@@ -26,6 +27,7 @@ export default function RootLayout({
         <Toaster />
         <ReduxProvider>
           <div className="min-h-screen flex flex-col">
+            <AuthInitializer />
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />

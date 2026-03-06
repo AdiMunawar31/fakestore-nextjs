@@ -1,8 +1,9 @@
 "use client";
+
 import Link from "next/link";
-import { ShoppingBag, User, Menu, X } from "lucide-react";
-import { useState, useCallback } from "react";
-import { useAppSelector } from "@/store/hooks";
+import { Menu, ShoppingBag, User, X } from "lucide-react";
+import { useCallback, useState } from "react";
+import { selectCartCount, useAppSelector } from "@/store/hooks";
 import { selectAuthToken } from "@/store/hooks";
 
 const navLinks = [
@@ -13,6 +14,8 @@ const navLinks = [
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const cartCount = useAppSelector(selectCartCount);
   const token = useAppSelector(selectAuthToken);
 
   const toggleMobile = useCallback(() => setMobileOpen((v) => !v), []);
@@ -44,37 +47,55 @@ export default function Header() {
         </ul>
 
         <div className="flex items-center gap-2">
-          <Link
-            href={token ? "/profile" : "/login"}
-            className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-            aria-label="Profile"
-          >
-            <User className="w-5 h-5 text-gray-700" />
-          </Link>
+          {token ? (
+            <>
+              <Link
+                href="/cart"
+                className="relative p-2 rounded-full hover:bg-gray-100 transition-colors"
+              >
+                <ShoppingBag className="w-5 h-5 text-gray-700" />
+
+                {cartCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-brand text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {cartCount > 9 ? "9+" : cartCount}
+                  </span>
+                )}
+              </Link>
+
+              <Link
+                href="/profile"
+                className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center"
+              >
+                <User className="w-4 h-4 text-gray-700" />
+              </Link>
+            </>
+          ) : (
+            <Link
+              href="/login"
+              className="px-4 py-1.5 text-sm font-medium bg-brand text-white rounded-full"
+            >
+              Login
+            </Link>
+          )}
+
           <button
             onClick={toggleMobile}
-            className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
-            aria-label="Menu"
+            className="md:hidden p-2 rounded-full hover:bg-gray-100"
           >
-            {mobileOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
 
-      {/* Mobile nav */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-apple animate-fade-in">
+        <div className="md:hidden border-t border-gray-100 bg-white/95">
           <ul className="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-1">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block text-sm text-gray-700 hover:text-gray-900 px-3 py-2.5 rounded-xl hover:bg-gray-50 transition-colors"
+                  className="block text-sm text-gray-700 px-3 py-2.5 rounded-xl hover:bg-gray-50"
                 >
                   {link.label}
                 </Link>

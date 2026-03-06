@@ -55,7 +55,6 @@ export default function ProductsClient({
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-      {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-1">
           {activeCategory ? (
@@ -69,9 +68,7 @@ export default function ProductsClient({
         </p>
       </div>
 
-      {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3 mb-8">
-        {/* Search */}
         <input
           type="text"
           placeholder="Search products..."
@@ -80,7 +77,6 @@ export default function ProductsClient({
           className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand"
         />
 
-        {/* Sort */}
         <div className="flex items-center gap-2">
           <SlidersHorizontal className="w-4 h-4 text-gray-400 shrink-0" />
           <select
@@ -96,7 +92,6 @@ export default function ProductsClient({
         </div>
       </div>
 
-      {/* Category pills */}
       <div className="flex gap-2 flex-wrap mb-8">
         <button
           onClick={() => handleCategoryChange(undefined)}
@@ -123,7 +118,6 @@ export default function ProductsClient({
         ))}
       </div>
 
-      {/* Grid */}
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map((product) => (
