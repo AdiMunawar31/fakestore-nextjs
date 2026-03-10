@@ -7,6 +7,7 @@ import { formatPrice } from "@/utils/formatPrice";
 import AddToCartButton from "./AddToCartButton";
 import Badge from "@/components/ui/Badge";
 import Link from "next/link";
+import NavButton from "@/components/customs/NavButton";
 
 export const dynamic = "force-dynamic";
 
@@ -43,13 +44,13 @@ export default async function ProductDetailPage({ params }: Props) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 animate-fade-in">
-      <Link
+      <NavButton
         href="/products"
-        className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 mb-8 transition-colors"
+        className="cursor-pointer inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 mb-8 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to Products
-      </Link>
+      </NavButton>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
         <div className="bg-white rounded-3xl p-10 shadow-apple flex items-center justify-center aspect-square">

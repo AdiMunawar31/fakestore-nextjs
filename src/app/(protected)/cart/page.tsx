@@ -16,8 +16,10 @@ import {
 } from "@/store/slices/cart.slice";
 import { formatPrice } from "@/utils/formatPrice";
 import Button from "@/components/ui/Button";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectCartItems);
   const total = useAppSelector(selectCartTotal);
@@ -45,9 +47,9 @@ export default function CartPage() {
         <p className="text-gray-500 mb-8">
           Looks like you haven&apos;t added anything yet.
         </p>
-        <Link href="/products">
-          <Button>Start Shopping</Button>
-        </Link>
+        <Button onClick={() => router.push("/products")}>
+          <span>Start Shopping</span>
+        </Button>
       </div>
     );
   }
@@ -103,7 +105,13 @@ export default function CartPage() {
                 <div className="flex items-center gap-2 bg-gray-50 rounded-full px-2 py-1">
                   <button
                     onClick={() => handleQuantity(item.id, item.quantity - 1)}
-                    className="w-6 h-6 flex items-center justify-center rounded-full hover:bg-gray-200 transition-colors"
+                    disabled={item.quantity === 1}
+                    className={`w-6 h-6 flex items-center justify-center rounded-full transition-colors
+                      ${
+                        item.quantity === 1
+                          ? "text-gray-300 cursor-not-allowed"
+                          : "hover:bg-gray-200"
+                      }`}
                   >
                     <Minus className="w-3 h-3" />
                   </button>
@@ -149,15 +157,22 @@ export default function CartPage() {
                 <span>{formatPrice(total * 1.1)}</span>
               </div>
             </div>
-            <Button className="w-full justify-center" size="lg">
+            <Button
+              className="w-full justify-center"
+              size="lg"
+              onClick={() => alert("Product checkout!")}
+            >
               Checkout <ArrowRight className="w-4 h-4" />
             </Button>
-            <Link
-              href="/products"
-              className="block text-center text-sm text-brand mt-3 hover:underline"
-            >
-              Continue Shopping
-            </Link>
+            <div className="flex justify-center">
+              <Button
+                onClick={() => router.push("/products")}
+                variant="ghost"
+                className="text-sm text-brand mt-3"
+              >
+                Continue Shopping
+              </Button>
+            </div>
           </div>
         </div>
       </div>

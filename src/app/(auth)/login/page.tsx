@@ -83,7 +83,7 @@ export default function LoginPage() {
               <button
                 type="button"
                 onClick={() => setShowPw((v) => !v)}
-                className="absolute right-3 top-9 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-11 text-gray-400 hover:text-gray-600"
               >
                 {showPw ? (
                   <EyeOff className="w-4 h-4" />
@@ -102,7 +102,7 @@ export default function LoginPage() {
             <Button
               type="submit"
               loading={isLoading}
-              className="w-full justify-center mt-2"
+              className="cursor-pointer w-full justify-center mt-2"
               size="md"
             >
               Sign In
@@ -121,9 +121,13 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-sm text-gray-500 mt-4">
-          <Link href="/" className="text-brand hover:underline">
+          <Button
+            onClick={() => router.push("/")}
+            variant="ghost"
+            className="cursor-pointer text-brand hover:underline"
+          >
             ← Back to store
-          </Link>
+          </Button>
         </p>
       </div>
     </div>

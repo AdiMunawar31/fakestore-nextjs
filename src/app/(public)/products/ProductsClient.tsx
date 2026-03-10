@@ -1,9 +1,10 @@
 "use client";
-import { useMemo, useState, useCallback } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontal } from "lucide-react";
-import { Product } from "@/types/product";
 import ProductCard from "@/components/customs/ProductCard";
+import { useDebounce } from "@/hooks/useDebounce";
+import { Product } from "@/types/product";
+import { SlidersHorizontal } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useCallback, useMemo, useState } from "react";
 
 interface Props {
   products: Product[];
@@ -20,10 +21,16 @@ export default function ProductsClient({
 }: Props) {
   const router = useRouter();
   const [sort, setSort] = useState<SortKey>("default");
+
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
+
+  console.log("Active Cat : ", activeCategory);
 
   const handleCategoryChange = useCallback(
     (cat: string | undefined) => {
+      console.log("Filter Cat : ", cat);
+
       if (cat) {
         router.push(`/products?category=${encodeURIComponent(cat)}`);
       } else {
@@ -36,8 +43,8 @@ export default function ProductsClient({
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
-    if (search.trim()) {
-      const q = search.toLowerCase();
+    if (debouncedSearch.trim()) {
+      const q = debouncedSearch.toLowerCase();
       result = result.filter(
         (p) =>
           p.title.toLowerCase().includes(q) ||
@@ -51,7 +58,7 @@ export default function ProductsClient({
       result.sort((a, b) => b.rating.rate - a.rating.rate);
 
     return result;
-  }, [products, search, sort]);
+  }, [products, debouncedSearch, sort]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
@@ -95,7 +102,7 @@ export default function ProductsClient({
       <div className="flex gap-2 flex-wrap mb-8">
         <button
           onClick={() => handleCategoryChange(undefined)}
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+          className={`cursor-pointer px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
             !activeCategory
               ? "bg-brand text-white"
               : "bg-white text-gray-600 hover:bg-gray-100"
@@ -107,7 +114,7 @@ export default function ProductsClient({
           <button
             key={cat}
             onClick={() => handleCategoryChange(cat)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
+            className={`cursor-pointer px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors ${
               activeCategory === cat
                 ? "bg-brand text-white"
                 : "bg-white text-gray-600 hover:bg-gray-100"

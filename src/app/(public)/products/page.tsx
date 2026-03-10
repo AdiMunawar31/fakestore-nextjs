@@ -12,20 +12,26 @@ export const metadata: Metadata = {
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { category?: string };
+  searchParams: Promise<{ category?: string }>;
 }) {
+  const { category } = await searchParams;
+
+  const productsPromise = category
+    ? productService.getByCategory(category)
+    : productService.getAll();
+
+  const categoriesPromise = productService.getCategories();
+
   const [products, categories] = await Promise.all([
-    searchParams.category
-      ? productService.getByCategory(searchParams.category)
-      : productService.getAll(),
-    productService.getCategories(),
+    productsPromise,
+    categoriesPromise,
   ]);
 
   return (
     <ProductsClient
       products={products}
       categories={categories}
-      activeCategory={searchParams.category}
+      activeCategory={category}
     />
   );
 }
